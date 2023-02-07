@@ -10,6 +10,7 @@ services:
     volumes:
       - ./config-prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
+      - ./hosts:/etc/hosts
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'

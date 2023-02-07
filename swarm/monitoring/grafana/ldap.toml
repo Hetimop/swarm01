@@ -1,0 +1,19 @@
+[[servers]]
+host = "ldap.m2.e2.rie.gouv.fr"
+port = 636
+use_ssl = true
+start_tls = false
+ssl_skip_verify = false
+
+
+# User search filter, for example "(cn=%s)" or "(sAMAccountName=%s)" or "(uid=%s)"
+search_filter = "(uid=%s)"
+
+# An array of base dns to search through
+search_base_dns = ["ou=GMCD,ou=DETN,ou=UNI,ou=DNUM,ou=SG,ou=AC,ou=melanie,ou=organisation,dc=equipement,dc=gouv,dc=fr"]
+
+[servers.attributes]
+name = "givenName"
+surname = "sn"
+username = "cn"
+email =  "mailPR"

@@ -1,0 +1,47 @@
+################################################
+#### DOCKER-COMPOSE GITHUB  Hetimop/swarm01 ####
+################################################
+
+version: "3.9"
+services:
+  grafana:
+    image: grafana/grafana:9.3.6-ubuntu
+    ports:
+      - 3030:3000
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password-v1.0
+      # - GF_AUTH_LDAP_ENABLED=true
+      # - GF_AUTH_LDAP_CONFIG_FILE=/etc/grafana/ldap.toml
+      - GF_SERVER_PROTOCOL=https
+      - GF_SERVER_CERT_FILE=/etc/grafana/grafana.gazzah.tk.cert.crt
+      - GF_SERVER_CERT_KEY=/etc/grafana/grafana.gazzah.tk.cert.key
+    secrets:
+      - grafana-admin-password-v1.0
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./ldap.toml:/etc/grafana/ldap.toml
+      - /etc/certs/grafana/grafana.gazzah.tk.cert.crt:/etc/grafana/grafana.gazzah.tk.cert.crt:ro
+      - /etc/certs/grafana/grafana.gazzah.tk.cert.key:/etc/grafana/grafana.gazzah.tk.cert.key:ro 
+    networks:
+      - metrics_swarm
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.hostname == vm1055-swarm01]
+      restart_policy:
+        condition: unless-stopped
+      resources:
+        limits:
+          memory: 2048M
+          cpu: 1
+        reservations:
+          memory: 128M
+
+secrets:
+  grafana-admin-password-v1.0:
+    external: true
+
+volumes:
+  grafana_data:
+

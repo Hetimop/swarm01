@@ -1,0 +1,33 @@
+################################################
+#### DOCKER-COMPOSE GITHUB  Hetimop/swarm01 ####
+################################################
+
+services:
+  node-exporter:
+      container_name: nexporter_solo
+      image: docker pull quay.io/prometheus/node-exporter:v1.5.0
+      restart: unless-stopped
+      volumes:
+        - /proc:/host/proc:ro
+        - /sys:/host/sys:ro
+        - /:/rootfs:ro
+      command: 
+        - '--path.procfs=/host/proc' 
+        - '--path.sysfs=/host/sys'
+        - --collector.filesystem.ignored-mount-points
+        - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/50000000.50000000/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+      ports:
+        - 9100:9100
+      logging:
+          driver: syslog
+          options:
+              syslog-facility: "local4"
+              tag: "{{.Name}}/{{.ID}}"
+      mem_limit: 512m
+      mem_reservation: 64M
+      cpus: 1
+
+networks:
+  metrics:
+    driver: bridge
+

@@ -45,3 +45,7 @@ secrets:
 volumes:
   grafana_data:
 
+networks:
+  metrics_swarm:
+    driver: overlay
+    attachable: true

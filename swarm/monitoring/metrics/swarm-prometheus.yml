@@ -28,7 +28,7 @@ services:
       placement:
         constraints: [node.hostname == vm1055-swarm01]
       restart_policy:
-        condition: unless-stopped
+        condition: on-failure
       resources:
         limits:
           memory: 2048M

@@ -7,7 +7,7 @@ services:
     container_name: cadvisor_solo
     restart: unless-stopped
     userns_mode: host
-    image: grc.io/cadvisor/cadvisor:v0.47.1
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
     hostname: '{{.Node.ID}}'
     command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influx:8086
     volumes:
